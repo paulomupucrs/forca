@@ -1,5 +1,6 @@
 /*
  * Autor: Anthony Jatobá
+ * Adaptado por: Fernando Ken Soares <fernando.ken@acad.pucrs.br> e Paulo Vianna Mu <paulo.mu@acad.pucrs.br>
  * Data de início: 14 de abril
  * Projeto de P1 - CC 2015.1
  * Jogo da forca simples, com a possibilidade de usar palavras personalizadas.
@@ -7,8 +8,8 @@
 
 #include<stdio.h>
 #include<string.h>
-#include <stdlib.h>
-#include <time.h>
+#include<stdlib.h>
+#include<time.h>
 
 #define NUM_ITENS 20
 
@@ -71,16 +72,15 @@ void inicializarJogo(void) {
 	system("clear");
 
 	//Limpa as letras usadas
-	for (i = 0; i < strlen(letrasUsadas); i++) {
+	for (i = 0; i < strlen(letrasUsadas); i++)
 		letrasUsadas[i] = '*';
-	}
 }
 
 /*		
-		 Função: int escolherModoDeJogo(void)
-	 Parâmetros: -
-	  Descrição: Mostra a tela de seleção do modo de jogo e solicita a opção do usuário.
-		Retorna: O modo de jogo escolhido.
+	Função: int escolherModoDeJogo(void)
+	Parâmetros: -
+	Descrição: Mostra a tela de seleção do modo de jogo e solicita a opção do usuário.
+	Retorna: O modo de jogo escolhido.
 */
 int escolherModoDeJogo(void) {
 	int opc;
@@ -98,10 +98,10 @@ int escolherModoDeJogo(void) {
 }
 
 /*
-		 Função: int escolherTema(void)
-	 Parâmetros: -
-	  Descrição: Mostra a tela de seleção de tema e solicita a opção do usuário.
-		Retorna: O tema escolhido.
+	Função: int escolherTema(void)
+	Parâmetros: -
+	Descrição: Mostra a tela de seleção de tema e solicita a opção do usuário.
+	Retorna: O tema escolhido.
 */
 int escolherTema(void) {
 	int tema;
@@ -124,9 +124,9 @@ int escolherTema(void) {
 
 /*
 	Procedimento: void escolherPalavraAleatoria(int tema)
-	  Parâmetros: int tema - identificador do tema escolhido
-	   Descrição: Pega uma palavra aleatória de acordo com o tela escolhido.
-		 Retorna: -
+	Parâmetros: int tema - identificador do tema escolhido
+	Descrição: Pega uma palavra aleatória de acordo com o tela escolhido.
+	Retorna: -
 */
 void escolherPalavraAleatoria(int tema) {
 	//Para gerar números aleatórios
@@ -161,9 +161,9 @@ void escolherPalavraAleatoria(int tema) {
 
 /*
 	Procedimento: void escolherPalavraPersonalizada(void)
-	  Parâmetros: -
-	   Descrição: Solicita ao usuário para digitar a dica e a palavra a ser advinhada, armazenando ambas na memória.
-		 Retorna: -
+	Parâmetros: -
+	Descrição: Solicita ao usuário para digitar a dica e a palavra a ser advinhada, armazenando ambas na memória.
+	Retorna: -
 */
 void escolherPalavraPersonalizada(void) {
 	printf("\n Digite a dica: ");
@@ -171,16 +171,15 @@ void escolherPalavraPersonalizada(void) {
 	printf("\n Digite a palavra a ser adivinhada: ");
 	scanf(" %[^\n]", palavra);
 
-	for (i = 0; i < strlen(palavra); i++) {
+	for (i = 0; i < strlen(palavra); i++)
 		palavra[i] = toupper(palavra[i]);
-	}
 }
 
 /*
 	Procedimento: void desenharBoneco(int erros)
-	  Parâmetros: int erros - Quantidade de erros da forca
-	   Descrição: Desenha o boneco na tela conforme a quantidade de erros.
-		 Retorna: -
+	Parâmetros: int erros - Quantidade de erros da forca
+	Descrição: Desenha o boneco na tela conforme a quantidade de erros.
+	Retorna: -
 */
 void desenharBoneco(int erros) {
 	switch (erros) {
@@ -304,43 +303,40 @@ void desenharBoneco(int erros) {
 }
 
 /*
-		 Procedimento: void desenharPalavra(void)
-		   Parâmetros: -
-			Descrição: Desenha os espaços e as letras corretas na tela.
-			  Retorna: -
+	Procedimento: void desenharPalavra(void)
+	Parâmetros: -
+	Descrição: Desenha os espaços e as letras corretas na tela.
+	Retorna: -
 */
 void desenharPalavra(void) {
 	//Desenha os espaços para as letras
 	for (i = 0; i < strlen(palavra); i++) {
-		if (acertos[i] == '*') {
+		if (acertos[i] == '*')
 			printf("_ ");
-		} else {
+		else
 			printf("%c ", acertos[i]);
-		}
 	}
 }
 
 /*
-		 Procedimento: void resetarAcertosDaPalavra(void)
-		   Parâmetros: -
-			Descrição: Reseta as letras que o jogador acertou da palavra.
-			  Retorna: -
+	Procedimento: void resetarAcertosDaPalavra(void)
+	Parâmetros: -
+	Descrição: Reseta as letras que o jogador acertou da palavra.
+	Retorna: -
 */
 void resetarAcertosDaPalavra(void) {
 	//Preenche a variável acertos com asteriscos, que representam caracteres desconhecidos
-	for (i = 0; i < strlen(palavra); i++) {
+	for (i = 0; i < strlen(palavra); i++)
 		acertos[i] = '*';
-	}
 
 	acertos[strlen(palavra)] = '\0';
 }
 
-
 /*
-		  Procedimento: void mostrarForca(void)
-			Parâmetros:	-
-			 Descrição: Mostra a forca na tela (as letras utilizadas, o boneco, a palavra, etc).
-			   Retorna: -
+	Procedimento: void mostrarForca(void)
+	Parâmetros:	-
+	Descrição: Mostra a forca na tela (as letras utilizadas, o boneco, a palavra, etc).
+	Retorna: -
 */
 void mostrarForca(void) {
 	system("clear");
@@ -356,7 +352,6 @@ void mostrarForca(void) {
 	desenharPalavra();
 
 	if (strcmp(palavra, acertos) != 0 && erros != 6) {
-
 		usada = 0;
 
 		printf("\n\n  Digite seu palpite: ");
@@ -365,9 +360,8 @@ void mostrarForca(void) {
 
 		//checa se a letra já foi usada
 		for (i = 0; i < 26; i++) {
-			if (letrasUsadas[i] == palpite) {
+			if (letrasUsadas[i] == palpite)
 				usada = 1;
-			}
 		}
 
 		//Se não foi usada
@@ -385,60 +379,48 @@ void mostrarForca(void) {
 				}
 			}
 
-			if (contemPalpite == 0) {
+			if (contemPalpite == 0)
 				erros++;
-			}
 		}
 
 	}
 }
 
 int main() {
-
 	//O programa é executado enquanto opc != 3 (sair no menu);
 	while (opc != 3) {
-
 		do {
-
 			inicializarJogo();
 
 			opc = escolherModoDeJogo();
 
 			if (opc == 1) {
-
 				do
 					tema = escolherTema();
 				while (tema < 1 || tema > 5);
 
 				escolherPalavraAleatoria(tema);
-
-			} else if (opc == 2) {
-
+			} else if (opc == 2)
 				escolherPalavraPersonalizada();
-
-			} else if (opc == 3) {
+			else if (opc == 3)
 				break;
-			}
 
 		} while (opc != 1 && opc != 2 && opc != 3);
 
 		if (opc != 3) {
-
 			resetarAcertosDaPalavra();
 
 			while (strcmp(palavra, acertos) != 0 && erros != 6)
 				mostrarForca();
 
-			if (erros == 6) {
+			if (erros == 6)
 				printf("\n  Você perdeu! =(\n  A palavra era %s", palavra);
-			} else {
+			else
 				printf("\n  Você ganhou! :D A palavra era %s", palavra);
-			}
 
 			printf("\n\n  Digite alguma coisa para voltar ao menu!");
 			scanf(" %c", &voltarMenu);
 		}
-
 	}
 
 	return 0;
