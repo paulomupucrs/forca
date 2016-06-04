@@ -1,6 +1,7 @@
 <h2>Jogo da Forca em C</h2>
 
 Por <a href="github.com/anthonyjatoba" target="_blank">Anthony Jatobá</a>
+
 Adaptado por Fernando Ken Soares <fernando.ken@acad.pucrs.br> e Paulo Vianna Mu <paulo.mu@acad.pucrs.br>
 
 Projeto para a primeira nota na matéria de Programação 1 do curso de Ciência da Computação da UFAL.
