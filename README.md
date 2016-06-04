@@ -1,5 +1,8 @@
 <h2>Jogo da Forca em C</h2>
 
+Por <a href="github.com/anthonyjatoba" target="_blank">Anthony Jatobá</a>
+Adaptado por Fernando Ken Soares <fernando.ken@acad.pucrs.br> e Paulo Vianna Mu <paulo.mu@acad.pucrs.br>
+
 Projeto para a primeira nota na matéria de Programação 1 do curso de Ciência da Computação da UFAL.
 
 <img src="https://raw.githubusercontent.com/anthonyjatoba/forca/master/imagem.png"/>
@@ -18,5 +21,3 @@ Projeto para a primeira nota na matéria de Programação 1 do curso de Ciência
 </ul>
 
 Curiosidade: o projeto foi terminado no dia de Tiradentes.
-
-Por: <a href="github.com/anthonyjatoba" target="_blank">Anthony Jatobá</a>
