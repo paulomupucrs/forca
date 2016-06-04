@@ -12,6 +12,36 @@
 
 #define NUM_ITENS 20
 
+//Iterador para uso geral.
+int i;
+
+//Char usado pra voltar ao menu
+char voltarMenu;
+
+//Dica da palavra para o jogador.
+char dica[20];
+//Palavra que o jogador deve acertar. Pode ser uma da lista acima ou personalizada.
+char palavra[12];
+//Variável usada para controle dos acertos do usuário. Cada letra acertada é colocada em sua posição nessa string. Quando <acertos> == <palavra>, o jogador acertou.
+char acertos[12];
+
+//Palpite do jogador.
+char palpite;
+
+//Variável de controle; 0 = não contem o
+int contemPalpite = 0;
+
+//Variáveis de opção dos menus de jogo e de tema.
+int opc = 0;
+int tema = 0;
+
+//Letras usadas pelo usuário e contador de letras usadas para repetições.
+char letrasUsadas[26];
+int numLetrasUsadas = 0;
+int usada;
+
+//Contador de erros. 6 erros = derrota;
+int erros = 0;
 
 //Vetores com as palavras possíveis. A declaração do tamanho deve ser manual, pois C não permite que a constante seja declarada como dimensão do array.
 char animal[NUM_ITENS][12] = { "AVESTRUZ", "BORBOLETA", "CARANGUEJO",
@@ -39,39 +69,8 @@ char informatica[NUM_ITENS][12] = { "LINUX", "WINDOWS", "C", "PROCESSADOR",
 
 int main() {
 
-	//Iterador para uso geral.
-	int i;
-
-	//Char usado pra voltar ao menu
-	char voltarMenu;
-
-	//Dica da palavra para o jogador.
-	char dica[20];
-	//Palavra que o jogador deve acertar. Pode ser uma da lista acima ou personalizada.
-	char palavra[12];
-	//Variável usada para controle dos acertos do usuário. Cada letra acertada é colocada em sua posição nessa string. Quando <acertos> == <palavra>, o jogador acertou.
-	char acertos[12];
-
-	//Palpite do jogador.
-	char palpite;
-
-	//Variável de controle; 0 = não contem o
-	int contemPalpite = 0;
-
-	//Variáveis de opção dos menus de jogo e de tema.
-	int opc = 0;
-	int tema = 0;
-
 	//O programa é executado enquanto opc != 3 (sair no menu);
 	while (opc != 3) {
-
-		//Letras usadas pelo usuário e contador de letras usadas para repetições.
-		char letrasUsadas[26];
-		int numLetrasUsadas = 0;
-		int usada;
-
-		//Contador de erros. 6 erros = derrota;
-		int erros = 0;
 
 		do {
 
