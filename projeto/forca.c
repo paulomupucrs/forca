@@ -178,31 +178,25 @@ void escolherPalavraPersonalizada(void) {
 	Retorna: -
 */
 void desenharBoneco(int erros) {
+	printf("\n\n");
+	printf("  ##########***##  \n");	
+	
+	if (erros >=0 && erros <=5) {
+		printf("  ####       *    \n");
+		printf("  ####      ***   \n");
+		printf("  ##       *o o*  \n");
+		printf("  ##       * ^ *  \n");
+		printf("  ##         *    \n");
+	} else {
+		printf("  ####       *    \n");
+		printf("  ####      ***   \n");
+		printf("  ##       *X X*  \n");
+		printf("  ##       * ^ *  \n");
+		printf("  ##         *    \n");
+	}
+
 	switch (erros) {
-		case 0: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####            \n");
-			printf("  ####            \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			break;
-		} case 1: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####       *    \n");
-			printf("  ####      ***   \n");
-			printf("  ##       *o o*  \n");
-			printf("  ##       * ^ *  \n");
-			printf("  ##         *    \n");
+		case 0 ... 1: {
 			printf("  ##              \n");
 			printf("  ##              \n");
 			printf("  ##              \n");
@@ -212,13 +206,6 @@ void desenharBoneco(int erros) {
 			printf("  ##              \n");
 			break;
 		} case 2: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####       *    \n");
-			printf("  ####      ***   \n");
-			printf("  ##       *o o*  \n");
-			printf("  ##       * ^ *  \n");
-			printf("  ##         *    \n");
 			printf("  ##         |    \n");
 			printf("  ##         |    \n");
 			printf("  ##         |    \n");
@@ -228,13 +215,6 @@ void desenharBoneco(int erros) {
 			printf("  ##              \n");
 			break;
 		} case 3: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####       *    \n");
-			printf("  ####      ***   \n");
-			printf("  ##       *o o*  \n");
-			printf("  ##       * ^ *  \n");
-			printf("  ##         *    \n");
 			printf("  ##         |    \n");
 			printf("  ##        /|    \n");
 			printf("  ##       / |    \n");
@@ -244,13 +224,6 @@ void desenharBoneco(int erros) {
 			printf("  ##              \n");
 			break;
 		} case 4: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####       *    \n");
-			printf("  ####      ***   \n");
-			printf("  ##       *o o*  \n");
-			printf("  ##       * ^ *  \n");
-			printf("  ##         *    \n");
 			printf("  ##         |    \n");
 			printf("  ##        /|\\  \n");
 			printf("  ##       / | \\ \n");
@@ -260,13 +233,6 @@ void desenharBoneco(int erros) {
 			printf("  ##              \n");
 			break;
 		} case 5: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####       *    \n");
-			printf("  ####      ***   \n");
-			printf("  ##       *o o*  \n");
-			printf("  ##       * ^ *  \n");
-			printf("  ##         *    \n");
 			printf("  ##         |    \n");
 			printf("  ##        /|\\  \n");
 			printf("  ##       / | \\ \n");
@@ -276,13 +242,7 @@ void desenharBoneco(int erros) {
 			printf("  ##       /      \n");
 			break;
 		} case 6: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####       *    \n");
-			printf("  ####      ***   \n");
-			printf("  ##       *X X*  \n");
-			printf("  ##       * ^ *  \n");
-			printf("  ##         *    \n");
+
 			printf("  ##         |    \n");
 			printf("  ##        /|\\   \n");
 			printf("  ##       / | \\  \n");
