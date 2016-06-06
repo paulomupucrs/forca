@@ -21,9 +21,9 @@
 //Dica da palavra para o jogador.
 char g_dica[20];
 //Palavra que o jogador deve acertar. Pode ser uma da lista acima ou personalizada.
-char g_palavra[12];
+char g_palavra[MAX_TAMANHO_PALAVRA];
 //Variável usada para controle dos acertos do usuário. Cada letra acertada é colocada em sua posição nessa string. Quando <acertos> == <palavra>, o jogador acertou.
-char g_acertos[12];
+char g_acertos[MAX_TAMANHO_PALAVRA];
 
 //Letras usadas pelo usuário e contador de letras usadas para repetições.
 char g_letrasUsadas[26];
