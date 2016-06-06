@@ -12,6 +12,11 @@
 #include<time.h>
 
 #define NUM_ITENS 20
+#define	OPC_NEM 0
+#define OPC_PREDEF 1
+#define OPC_PERS 2
+#define OPC_SAIR 3
+#define MAX_TAMANHO_PALAVRA 12
 
 //Dica da palavra para o jogador.
 char g_dica[20];
@@ -28,31 +33,35 @@ int g_numLetrasUsadas = 0;
 int g_erros = 0;
 
 //Vetores com as palavras possíveis. A declaração do tamanho deve ser manual, pois C não permite que a constante seja declarada como dimensão do array.
-const char animal[NUM_ITENS][12] = { "AVESTRUZ", "BORBOLETA", "CARANGUEJO",
+const char animal[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "AVESTRUZ", "BORBOLETA", "CARANGUEJO",
 			"ORANGOTANGO", "CROCODILO", "DROMEDARIO", "ROUXINOL", "CENTOPEIA",
 			"GAFANHOTO", "PINTASSILGO", "HIPOPOTAMO", "LEOPARDO", "GUAXINIM",
 			"JAGUATIRICA", "OSTRA", "MICO", "CHIMPANZE", "CARNEIRO", "GOLFINHO",
 			"MINHOCA" };
-const char comida[NUM_ITENS][12] = { "EMPADA", "FARINHA", "FEIJOADA", "COXINHA",
+const char comida[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "EMPADA", "FARINHA", "FEIJOADA", "COXINHA",
 			"BRIGADEIRO", "CHURRASCO", "LASANHA", "MACARRONADA", "TORTA",
 			"TORRADA", "PIZZA", "PANQUECA", "PIPOCA", "PAMONHA", "OVO",
 			"ACARAJE", "CROISSANT", "HAMBURGUER", "BISCOITO", "BOLO" };
-const char fruta[NUM_ITENS][12] = { "ABACATE", "BANANA", "CARAMBOLA", "DAMASCO", "FIGO",
+const char fruta[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "ABACATE", "BANANA", "CARAMBOLA", "DAMASCO", "FIGO",
 			"GOIABA", "JABUTICABA", "KIWI", "LARANJA", "MELANCIA", "MANGA",
 			"MARACUJA", "PESSEGO", "PITOMBA", "ROMA", "TANGERINA", "TOMATE",
 			"TAMARINDO", "UVA", "UMBU" };
-const char profissao[NUM_ITENS][12] = { "ADVOGADO", "BOMBEIRO", "CARPINTEIRO",
+const char profissao[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "ADVOGADO", "BOMBEIRO", "CARPINTEIRO",
 			"DESENHISTA", "ENGENHEIRO", "ESCRITOR", "FERREIRO", "GUARDA",
 			"HISTORIADOR", "JORNALISTA", "LEILOEIRO", "MARINHEIRO", "OURIVES",
 			"PROGRAMADOR", "PADEIRO", "RELOJOEIRO", "SILVICULTOR", "TRADUTOR",
 			"VETERINARIO", "ZOOLOGO" };
-const char informatica[NUM_ITENS][12] = { "LINUX", "WINDOWS", "C", "PROCESSADOR",
+const char informatica[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "LINUX", "WINDOWS", "C", "PROCESSADOR",
 			"TECLADO", "MOUSE", "PROGRAMA", "ALGORITMO", "HACKER", "TOUCHPAD",
 			"ASCII", "JAVA", "JAVASCRIPT", "PROGRAMADOR", "PYTHON", "INTERNET",
 			"ROTEADOR", "SERVIDOR", "GOOGLE", "APPLE" };
 
-void inicializarJogo(void) {
+void limparTela(void) {
 	system("clear");
+}
+		
+void inicializarJogo(void) {
+	limparTela();
 
 	int i;
 
@@ -91,7 +100,7 @@ int escolherModoDeJogo(void) {
 int escolherTema(void) {
 	int tema;
 
-	system("clear");
+	limparTela();
 
 	printf(
 			"#################################### Forca #####################################");
@@ -169,31 +178,25 @@ void escolherPalavraPersonalizada(void) {
 	Retorna: -
 */
 void desenharBoneco(int erros) {
+	printf("\n\n");
+	printf("  ##########***##  \n");	
+	
+	if (erros >=0 && erros <=5) {
+		printf("  ####       *    \n");
+		printf("  ####      ***   \n");
+		printf("  ##       *o o*  \n");
+		printf("  ##       * ^ *  \n");
+		printf("  ##         *    \n");
+	} else {
+		printf("  ####       *    \n");
+		printf("  ####      ***   \n");
+		printf("  ##       *X X*  \n");
+		printf("  ##       * ^ *  \n");
+		printf("  ##         *    \n");
+	}
+
 	switch (erros) {
-		case 0: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####            \n");
-			printf("  ####            \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			break;
-		} case 1: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####       *    \n");
-			printf("  ####      ***   \n");
-			printf("  ##       *o o*  \n");
-			printf("  ##       * ^ *  \n");
-			printf("  ##         *    \n");
+		case 0 ... 1: {
 			printf("  ##              \n");
 			printf("  ##              \n");
 			printf("  ##              \n");
@@ -203,13 +206,6 @@ void desenharBoneco(int erros) {
 			printf("  ##              \n");
 			break;
 		} case 2: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####       *    \n");
-			printf("  ####      ***   \n");
-			printf("  ##       *o o*  \n");
-			printf("  ##       * ^ *  \n");
-			printf("  ##         *    \n");
 			printf("  ##         |    \n");
 			printf("  ##         |    \n");
 			printf("  ##         |    \n");
@@ -219,13 +215,6 @@ void desenharBoneco(int erros) {
 			printf("  ##              \n");
 			break;
 		} case 3: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####       *    \n");
-			printf("  ####      ***   \n");
-			printf("  ##       *o o*  \n");
-			printf("  ##       * ^ *  \n");
-			printf("  ##         *    \n");
 			printf("  ##         |    \n");
 			printf("  ##        /|    \n");
 			printf("  ##       / |    \n");
@@ -235,13 +224,6 @@ void desenharBoneco(int erros) {
 			printf("  ##              \n");
 			break;
 		} case 4: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####       *    \n");
-			printf("  ####      ***   \n");
-			printf("  ##       *o o*  \n");
-			printf("  ##       * ^ *  \n");
-			printf("  ##         *    \n");
 			printf("  ##         |    \n");
 			printf("  ##        /|\\  \n");
 			printf("  ##       / | \\ \n");
@@ -251,13 +233,6 @@ void desenharBoneco(int erros) {
 			printf("  ##              \n");
 			break;
 		} case 5: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####       *    \n");
-			printf("  ####      ***   \n");
-			printf("  ##       *o o*  \n");
-			printf("  ##       * ^ *  \n");
-			printf("  ##         *    \n");
 			printf("  ##         |    \n");
 			printf("  ##        /|\\  \n");
 			printf("  ##       / | \\ \n");
@@ -267,13 +242,7 @@ void desenharBoneco(int erros) {
 			printf("  ##       /      \n");
 			break;
 		} case 6: {
-			printf("\n\n");
-			printf("  ##########***##  \n");
-			printf("  ####       *    \n");
-			printf("  ####      ***   \n");
-			printf("  ##       *X X*  \n");
-			printf("  ##       * ^ *  \n");
-			printf("  ##         *    \n");
+
 			printf("  ##         |    \n");
 			printf("  ##        /|\\   \n");
 			printf("  ##       / | \\  \n");
@@ -330,7 +299,7 @@ void resetarAcertosDaPalavra(void) {
 	Retorna: -
 */
 void mostrarForca(void) {
-	system("clear");
+	limparTela();
 
 	printf(
 			"#################################### Forca #####################################");
@@ -385,33 +354,33 @@ void mostrarForca(void) {
 
 int main() {
 	//Variáveis de opção dos menus de jogo e de tema.
-	int opc = 0;
+	int opc = OPC_NEM;
 	int tema = 0;
 
-	//O programa é executado enquanto opc != 3 (sair no menu);
-	while (opc != 3) {
+	//O programa é executado enquanto opc != OPC_SAIR (sair no menu);
+	while (opc != OPC_SAIR) {
 		do {
 			inicializarJogo();
 
 			opc = escolherModoDeJogo();
 
 			switch (opc) {
-				case 1: {
+				case OPC_PREDEF: {
 					do
 						tema = escolherTema();
 					while (tema < 1 || tema > 5);
 
 					escolherPalavraAleatoria(tema);
 					break;
-				} case 2: {
+				} case OPC_PERS: {
 					escolherPalavraPersonalizada();
 					break;
-				} case 3:
+				} case OPC_SAIR:
 					break;
 			}
-		} while (opc != 1 && opc != 2 && opc != 3);
+		} while (opc != OPC_PREDEF && opc != OPC_PERS && opc != OPC_SAIR);
 
-		if (opc != 3) {
+		if (opc != OPC_SAIR) {
 			resetarAcertosDaPalavra();
 
 			while (strcmp(g_palavra, g_acertos) != 0 && g_erros != 6)
