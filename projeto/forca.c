@@ -14,18 +14,18 @@
 #define NUM_ITENS 20
 
 //Dica da palavra para o jogador.
-char dica[20];
+char g_dica[20];
 //Palavra que o jogador deve acertar. Pode ser uma da lista acima ou personalizada.
-char palavra[12];
+char g_palavra[12];
 //Variável usada para controle dos acertos do usuário. Cada letra acertada é colocada em sua posição nessa string. Quando <acertos> == <palavra>, o jogador acertou.
-char acertos[12];
+char g_acertos[12];
 
 //Letras usadas pelo usuário e contador de letras usadas para repetições.
-char letrasUsadas[26];
-int numLetrasUsadas = 0;
+char g_letrasUsadas[26];
+int g_numLetrasUsadas = 0;
 
 //Contador de erros. 6 erros = derrota;
-int erros = 0;
+int g_erros = 0;
 
 //Vetores com as palavras possíveis. A declaração do tamanho deve ser manual, pois C não permite que a constante seja declarada como dimensão do array.
 const char animal[NUM_ITENS][12] = { "AVESTRUZ", "BORBOLETA", "CARANGUEJO",
@@ -57,8 +57,8 @@ void inicializarJogo(void) {
 	int i;
 
 	//Limpa as letras usadas
-	for (i = 0; i < strlen(letrasUsadas); i++)
-		letrasUsadas[i] = '*';
+	for (i = 0; i < strlen(g_letrasUsadas); i++)
+		g_letrasUsadas[i] = '*';
 }
 
 /*		
@@ -119,25 +119,25 @@ void escolherPalavraAleatoria(int tema) {
 
 	switch (tema) {
 		case 1: {
-			strcpy(dica, "Animal");
+			strcpy(g_dica, "Animal");
 			//Seleciona uma palavra aleatória
-			strcpy(palavra, animal[rand() % NUM_ITENS]);
+			strcpy(g_palavra, animal[rand() % NUM_ITENS]);
 			break;
 		} case 2: {
-			strcpy(dica, "Comida");
-			strcpy(palavra, comida[rand() % NUM_ITENS]);
+			strcpy(g_dica, "Comida");
+			strcpy(g_palavra, comida[rand() % NUM_ITENS]);
 			break;
 		} case 3: {
-			strcpy(dica, "Fruta");
-			strcpy(palavra, fruta[rand() % NUM_ITENS]);
+			strcpy(g_dica, "Fruta");
+			strcpy(g_palavra, fruta[rand() % NUM_ITENS]);
 			break;
 		} case 4: {
-			strcpy(dica, "Profissao");
-			strcpy(palavra, profissao[rand() % NUM_ITENS]);
+			strcpy(g_dica, "Profissao");
+			strcpy(g_palavra, profissao[rand() % NUM_ITENS]);
 			break;
 		} case 5: {
-			strcpy(dica, "Informatica");
-			strcpy(palavra, informatica[rand() % NUM_ITENS]);
+			strcpy(g_dica, "Informatica");
+			strcpy(g_palavra, informatica[rand() % NUM_ITENS]);
 			break;
 		} default:
 			break;
@@ -152,14 +152,14 @@ void escolherPalavraAleatoria(int tema) {
 */
 void escolherPalavraPersonalizada(void) {
 	printf("\n Digite a dica: ");
-	scanf(" %[^\n]", dica);
+	scanf(" %[^\n]", g_dica);
 	printf("\n Digite a palavra a ser adivinhada: ");
-	scanf(" %[^\n]", palavra);
+	scanf(" %[^\n]", g_palavra);
 
 	int i;
 
-	for (i = 0; i < strlen(palavra); i++)
-		palavra[i] = toupper(palavra[i]);
+	for (i = 0; i < strlen(g_palavra); i++)
+		g_palavra[i] = toupper(g_palavra[i]);
 }
 
 /*
@@ -299,11 +299,11 @@ void desenharPalavra(void) {
 	int i;
 
 	//Desenha os espaços para as letras
-	for (i = 0; i < strlen(palavra); i++) {
-		if (acertos[i] == '*')
+	for (i = 0; i < strlen(g_palavra); i++) {
+		if (g_acertos[i] == '*')
 			printf("_ ");
 		else
-			printf("%c ", acertos[i]);
+			printf("%c ", g_acertos[i]);
 	}
 }
 
@@ -317,10 +317,10 @@ void resetarAcertosDaPalavra(void) {
 	int i;
 
 	//Preenche a variável acertos com asteriscos, que representam caracteres desconhecidos
-	for (i = 0; i < strlen(palavra); i++)
-		acertos[i] = '*';
+	for (i = 0; i < strlen(g_palavra); i++)
+		g_acertos[i] = '*';
 
-	acertos[strlen(palavra)] = '\0';
+	g_acertos[strlen(g_palavra)] = '\0';
 }
 
 /*
@@ -334,17 +334,17 @@ void mostrarForca(void) {
 
 	printf(
 			"#################################### Forca #####################################");
-	printf("\n\n  Dica: %s   Letras usadas: ", dica);
+	printf("\n\n  Dica: %s   Letras usadas: ", g_dica);
 
 	int i;
 
-	for (i = 0; i < numLetrasUsadas; i++)
-		printf("%c ", letrasUsadas[i]);
+	for (i = 0; i < g_numLetrasUsadas; i++)
+		printf("%c ", g_letrasUsadas[i]);
 
-	desenharBoneco(erros);
+	desenharBoneco(g_erros);
 	desenharPalavra();
 
-	if (strcmp(palavra, acertos) != 0 && erros != 6) {
+	if (strcmp(g_palavra, g_acertos) != 0 && g_erros != 6) {
 		//Palpite do jogador.
 		char palpite;
 
@@ -356,28 +356,28 @@ void mostrarForca(void) {
 
 		//checa se a letra já foi usada
 		for (i = 0; i < 26; i++) {
-			if (letrasUsadas[i] == palpite)
+			if (g_letrasUsadas[i] == palpite)
 				usada = 1;
 		}
 
 		//Se não foi usada
 		if (usada == 0) {
-			letrasUsadas[numLetrasUsadas] = palpite;
-			numLetrasUsadas++;
+			g_letrasUsadas[g_numLetrasUsadas] = palpite;
+			g_numLetrasUsadas++;
 
 			//Variável de controle; 0 = não contem o
 			int contemPalpite = 0;
 
 			//Verifica se a palavra contém o palpite do usuário. A variável contemPalpite é usada para o controle dos erros
-			for (i = 0; i < strlen(palavra); i++) {
-				if (palpite == palavra[i]) {
-					acertos[i] = palpite;
+			for (i = 0; i < strlen(g_palavra); i++) {
+				if (palpite == g_palavra[i]) {
+					g_acertos[i] = palpite;
 					contemPalpite = 1;
 				}
 			}
 
 			if (contemPalpite == 0)
-				erros++;
+				g_erros++;
 		}
 
 	}
@@ -414,13 +414,13 @@ int main() {
 		if (opc != 3) {
 			resetarAcertosDaPalavra();
 
-			while (strcmp(palavra, acertos) != 0 && erros != 6)
+			while (strcmp(g_palavra, g_acertos) != 0 && g_erros != 6)
 				mostrarForca();
 
-			if (erros == 6)
-				printf("\n  Você perdeu! =(\n  A palavra era %s", palavra);
+			if (g_erros == 6)
+				printf("\n  Você perdeu! =(\n  A palavra era %s", g_palavra);
 			else
-				printf("\n  Você ganhou! :D A palavra era %s", palavra);
+				printf("\n  Você ganhou! :D A palavra era %s", g_palavra);
 
 			//Char usado pra voltar ao menu
 			char voltarMenu;
