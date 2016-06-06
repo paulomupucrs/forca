@@ -12,7 +12,11 @@
 #include<time.h>
 
 #define NUM_ITENS 20
-
+#define	OPC_NEM 0
+#define OPC_PREDEF 1
+#define OPC_PERS 2
+#define OPC_SAIR 3
+ 
 //Dica da palavra para o jogador.
 char dica[20];
 //Palavra que o jogador deve acertar. Pode ser uma da lista acima ou personalizada.
@@ -385,33 +389,33 @@ void mostrarForca(void) {
 
 int main() {
 	//Variáveis de opção dos menus de jogo e de tema.
-	int opc = 0;
+	int opc = OPC_NEM;
 	int tema = 0;
 
-	//O programa é executado enquanto opc != 3 (sair no menu);
-	while (opc != 3) {
+	//O programa é executado enquanto opc != OPC_SAIR (sair no menu);
+	while (opc != OPC_SAIR) {
 		do {
 			inicializarJogo();
 
 			opc = escolherModoDeJogo();
 
 			switch (opc) {
-				case 1: {
+				case OPC_PREDEF: {
 					do
 						tema = escolherTema();
 					while (tema < 1 || tema > 5);
 
 					escolherPalavraAleatoria(tema);
 					break;
-				} case 2: {
+				} case OPC_PERS: {
 					escolherPalavraPersonalizada();
 					break;
-				} case 3:
+				} case OPC_SAIR:
 					break;
 			}
-		} while (opc != 1 && opc != 2 && opc != 3);
+		} while (opc != OPC_PREDEF && opc != OPC_PERS && opc != OPC_SAIR);
 
-		if (opc != 3) {
+		if (opc != OPC_SAIR) {
 			resetarAcertosDaPalavra();
 
 			while (strcmp(palavra, acertos) != 0 && erros != 6)
