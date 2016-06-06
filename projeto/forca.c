@@ -16,13 +16,14 @@
 #define OPC_PREDEF 1
 #define OPC_PERS 2
 #define OPC_SAIR 3
- 
+#define MAX_TAMANHO_PALAVRA 12
+
 //Dica da palavra para o jogador.
 char dica[20];
 //Palavra que o jogador deve acertar. Pode ser uma da lista acima ou personalizada.
-char palavra[12];
+char palavra[MAX_TAMANHO_PALAVRA];
 //Variável usada para controle dos acertos do usuário. Cada letra acertada é colocada em sua posição nessa string. Quando <acertos> == <palavra>, o jogador acertou.
-char acertos[12];
+char acertos[MAX_TAMANHO_PALAVRA];
 
 //Letras usadas pelo usuário e contador de letras usadas para repetições.
 char letrasUsadas[26];
@@ -32,25 +33,25 @@ int numLetrasUsadas = 0;
 int erros = 0;
 
 //Vetores com as palavras possíveis. A declaração do tamanho deve ser manual, pois C não permite que a constante seja declarada como dimensão do array.
-const char animal[NUM_ITENS][12] = { "AVESTRUZ", "BORBOLETA", "CARANGUEJO",
+const char animal[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "AVESTRUZ", "BORBOLETA", "CARANGUEJO",
 			"ORANGOTANGO", "CROCODILO", "DROMEDARIO", "ROUXINOL", "CENTOPEIA",
 			"GAFANHOTO", "PINTASSILGO", "HIPOPOTAMO", "LEOPARDO", "GUAXINIM",
 			"JAGUATIRICA", "OSTRA", "MICO", "CHIMPANZE", "CARNEIRO", "GOLFINHO",
 			"MINHOCA" };
-const char comida[NUM_ITENS][12] = { "EMPADA", "FARINHA", "FEIJOADA", "COXINHA",
+const char comida[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "EMPADA", "FARINHA", "FEIJOADA", "COXINHA",
 			"BRIGADEIRO", "CHURRASCO", "LASANHA", "MACARRONADA", "TORTA",
 			"TORRADA", "PIZZA", "PANQUECA", "PIPOCA", "PAMONHA", "OVO",
 			"ACARAJE", "CROISSANT", "HAMBURGUER", "BISCOITO", "BOLO" };
-const char fruta[NUM_ITENS][12] = { "ABACATE", "BANANA", "CARAMBOLA", "DAMASCO", "FIGO",
+const char fruta[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "ABACATE", "BANANA", "CARAMBOLA", "DAMASCO", "FIGO",
 			"GOIABA", "JABUTICABA", "KIWI", "LARANJA", "MELANCIA", "MANGA",
 			"MARACUJA", "PESSEGO", "PITOMBA", "ROMA", "TANGERINA", "TOMATE",
 			"TAMARINDO", "UVA", "UMBU" };
-const char profissao[NUM_ITENS][12] = { "ADVOGADO", "BOMBEIRO", "CARPINTEIRO",
+const char profissao[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "ADVOGADO", "BOMBEIRO", "CARPINTEIRO",
 			"DESENHISTA", "ENGENHEIRO", "ESCRITOR", "FERREIRO", "GUARDA",
 			"HISTORIADOR", "JORNALISTA", "LEILOEIRO", "MARINHEIRO", "OURIVES",
 			"PROGRAMADOR", "PADEIRO", "RELOJOEIRO", "SILVICULTOR", "TRADUTOR",
 			"VETERINARIO", "ZOOLOGO" };
-const char informatica[NUM_ITENS][12] = { "LINUX", "WINDOWS", "C", "PROCESSADOR",
+const char informatica[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "LINUX", "WINDOWS", "C", "PROCESSADOR",
 			"TECLADO", "MOUSE", "PROGRAMA", "ALGORITMO", "HACKER", "TOUCHPAD",
 			"ASCII", "JAVA", "JAVASCRIPT", "PROGRAMADOR", "PYTHON", "INTERNET",
 			"ROTEADOR", "SERVIDOR", "GOOGLE", "APPLE" };
