@@ -181,13 +181,13 @@ void desenharBoneco(int erros) {
 	printf("\n\n");
 	printf("  ##########***##  \n");	
 	
-	if (erros >=0 && erros <=5) {
+	if (erros > 0 && erros <= 5) {
 		printf("  ####       *    \n");
 		printf("  ####      ***   \n");
 		printf("  ##       *o o*  \n");
 		printf("  ##       * ^ *  \n");
 		printf("  ##         *    \n");
-	} else {
+	} else if (erros == 6) {
 		printf("  ####       *    \n");
 		printf("  ####      ***   \n");
 		printf("  ##       *X X*  \n");
@@ -363,22 +363,22 @@ int main() {
 			inicializarJogo();
 
 			opc = escolherModoDeJogo();
-
-			switch (opc) {
-				case OPC_PREDEF: {
-					do
-						tema = escolherTema();
-					while (tema < 1 || tema > 5);
-
-					escolherPalavraAleatoria(tema);
-					break;
-				} case OPC_PERS: {
-					escolherPalavraPersonalizada();
-					break;
-				} case OPC_SAIR:
-					break;
-			}
 		} while (opc != OPC_PREDEF && opc != OPC_PERS && opc != OPC_SAIR);
+
+		switch (opc) {
+			case OPC_PREDEF: {
+				do
+					tema = escolherTema();
+				while (tema < 1 || tema > 5);
+
+				escolherPalavraAleatoria(tema);
+				break;
+			} case OPC_PERS: {
+				escolherPalavraPersonalizada();
+				break;
+			} case OPC_SAIR:
+				break;
+		}
 
 		if (opc != OPC_SAIR) {
 			resetarAcertosDaPalavra();
