@@ -56,8 +56,12 @@ const char informatica[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "LINUX", "WINDOWS", "
 			"ASCII", "JAVA", "JAVASCRIPT", "PROGRAMADOR", "PYTHON", "INTERNET",
 			"ROTEADOR", "SERVIDOR", "GOOGLE", "APPLE" };
 
-void inicializarJogo(void) {
+void limparTela(void) {
 	system("clear");
+}
+		
+void inicializarJogo(void) {
+	limparTela();
 
 	int i;
 
@@ -96,7 +100,7 @@ int escolherModoDeJogo(void) {
 int escolherTema(void) {
 	int tema;
 
-	system("clear");
+	limparTela();
 
 	printf(
 			"#################################### Forca #####################################");
@@ -335,7 +339,7 @@ void resetarAcertosDaPalavra(void) {
 	Retorna: -
 */
 void mostrarForca(void) {
-	system("clear");
+	limparTela();
 
 	printf(
 			"#################################### Forca #####################################");
