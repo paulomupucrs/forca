@@ -181,13 +181,13 @@ void desenharBoneco(int erros) {
 	printf("\n\n");
 	printf("  ##########***##  \n");	
 	
-	if (erros >=0 && erros <=5) {
+	if (erros >0 && erros <=5) {
 		printf("  ####       *    \n");
 		printf("  ####      ***   \n");
 		printf("  ##       *o o*  \n");
 		printf("  ##       * ^ *  \n");
 		printf("  ##         *    \n");
-	} else {
+	} else if (erros == 6){
 		printf("  ####       *    \n");
 		printf("  ####      ***   \n");
 		printf("  ##       *X X*  \n");
@@ -195,15 +195,20 @@ void desenharBoneco(int erros) {
 		printf("  ##         *    \n");
 	}
 
+	int i;
+
 	switch (erros) {
-		case 0 ... 1: {
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
-			printf("  ##              \n");
+		case 0: {	
+			printf("  ####              \n");
+			printf("  ####              \n");		
+			for(i = 0; i < 9; i ++) {
+				printf("  ##              \n");
+			}
+			break;
+		} case 1: {
+			for(i = 0; i < 6; i ++) {
+				printf("  ##              \n");
+			}			
 			break;
 		} case 2: {
 			printf("  ##         |    \n");
