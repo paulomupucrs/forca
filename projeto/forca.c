@@ -21,9 +21,9 @@
 //Dica da palavra para o jogador.
 char g_dica[20];
 //Palavra que o jogador deve acertar. Pode ser uma da lista acima ou personalizada.
-char g_palavra[12];
+char g_palavra[MAX_TAMANHO_PALAVRA];
 //Variável usada para controle dos acertos do usuário. Cada letra acertada é colocada em sua posição nessa string. Quando <acertos> == <palavra>, o jogador acertou.
-char g_acertos[12];
+char g_acertos[MAX_TAMANHO_PALAVRA];
 
 //Letras usadas pelo usuário e contador de letras usadas para repetições.
 char g_letrasUsadas[26];
@@ -59,7 +59,7 @@ const char informatica[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "LINUX", "WINDOWS", "
 void limparTela(void) {
 	system("clear");
 }
-		
+
 void inicializarJogo(void) {
 	limparTela();
 
@@ -70,48 +70,60 @@ void inicializarJogo(void) {
 		g_letrasUsadas[i] = '*';
 }
 
+int clean_stdin() {
+	while (getchar() != '\n');
+
+	return 1;
+}
+
 /*		
-	Função: int escolherModoDeJogo(void)
+	Procedimento: int escolherModoDeJogo(void)
 	Parâmetros: -
 	Descrição: Mostra a tela de seleção do modo de jogo e solicita a opção do usuário.
 	Retorna: O modo de jogo escolhido.
 */
 int escolherModoDeJogo(void) {
 	int opc;
+	char c;
 
-	printf(
-			"#################################### Forca #####################################");
-	printf("\n\n Escolha o modo de jogo: ");
-	printf("\n\n 1 - Palavras pré-definidas: ");
-	printf("\n\n 2 - Palavra personalizada: ");
-	printf("\n\n 3 - Sair: ");
-	printf("\n\n Opção escolhida: ");
-	scanf("%d", &opc);
+	do {
+		limparTela();
+
+		printf(
+				"#################################### Forca #####################################");
+		printf("\n\n Escolha o modo de jogo: ");
+		printf("\n\n 1 - Palavras pré-definidas: ");
+		printf("\n\n 2 - Palavra personalizada: ");
+		printf("\n\n 3 - Sair: ");
+		printf("\n\n Opção escolhida: ");
+	} while (((scanf("%d%c", &opc, &c) != 2 || c != '\n') && clean_stdin()) || opc < OPC_PREDEF || opc > OPC_SAIR);
 
 	return opc;
 }
 
 /*
-	Função: int escolherTema(void)
+	Procedimento: int escolherTema(void)
 	Parâmetros: -
 	Descrição: Mostra a tela de seleção de tema e solicita a opção do usuário.
 	Retorna: O tema escolhido.
 */
 int escolherTema(void) {
 	int tema;
+	char c;
 
-	limparTela();
+	do {
+		limparTela();
 
-	printf(
+		printf(
 			"#################################### Forca #####################################");
-	printf("\n\n Escolha o tema para jogar: ");
-	printf("\n\n 1 - Animais: ");
-	printf("\n\n 2 - Comida: ");
-	printf("\n\n 3 - Frutas: ");
-	printf("\n\n 4 - Profissao: ");
-	printf("\n\n 5 - Informatica: ");
-	printf("\n\n Tema escolhido: ");
-	scanf(" %d", &tema);
+		printf("\n\n Escolha o tema para jogar: ");
+		printf("\n\n 1 - Animais: ");
+		printf("\n\n 2 - Comida: ");
+		printf("\n\n 3 - Frutas: ");
+		printf("\n\n 4 - Profissao: ");
+		printf("\n\n 5 - Informatica: ");
+		printf("\n\n Tema escolhido: ");
+	} while (((scanf("%d%c", &tema, &c) != 2 || c != '\n') && clean_stdin()) || tema < 1 || tema > 5);
 
 	return tema;
 }
@@ -181,13 +193,13 @@ void desenharBoneco(int erros) {
 	printf("\n\n");
 	printf("  ##########***##  \n");	
 	
-	if (erros >0 && erros <=5) {
+	if (erros > 0 && erros <= 5) {
 		printf("  ####       *    \n");
 		printf("  ####      ***   \n");
 		printf("  ##       *o o*  \n");
 		printf("  ##       * ^ *  \n");
 		printf("  ##         *    \n");
-	} else if (erros == 6){
+	} else if (erros == 6) {
 		printf("  ####       *    \n");
 		printf("  ####      ***   \n");
 		printf("  ##       *X X*  \n");
@@ -364,26 +376,22 @@ int main() {
 
 	//O programa é executado enquanto opc != OPC_SAIR (sair no menu);
 	while (opc != OPC_SAIR) {
-		do {
-			inicializarJogo();
+		inicializarJogo();
 
-			opc = escolherModoDeJogo();
+		opc = escolherModoDeJogo();
 
-			switch (opc) {
-				case OPC_PREDEF: {
-					do
-						tema = escolherTema();
-					while (tema < 1 || tema > 5);
+		switch (opc) {
+			case OPC_PREDEF: {
+				tema = escolherTema();
 
-					escolherPalavraAleatoria(tema);
-					break;
-				} case OPC_PERS: {
-					escolherPalavraPersonalizada();
-					break;
-				} case OPC_SAIR:
-					break;
-			}
-		} while (opc != OPC_PREDEF && opc != OPC_PERS && opc != OPC_SAIR);
+				escolherPalavraAleatoria(tema);
+				break;
+			} case OPC_PERS: {
+				escolherPalavraPersonalizada();
+				break;
+			} case OPC_SAIR:
+				break;
+		}
 
 		if (opc != OPC_SAIR) {
 			resetarAcertosDaPalavra();
