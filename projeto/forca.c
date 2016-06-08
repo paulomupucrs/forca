@@ -197,7 +197,7 @@ void desenharBoneco(int erros) {
 		printf("  ####       *    \n");
 		printf("  ####      ***   \n");
 		printf("  ##       *o o*  \n");
-		printf("  ##       * ^ *  \n");
+		printf("  ##       * ^'*  \n");
 		printf("  ##         *    \n");
 	} else if (erros == 6) {
 		printf("  ####       *    \n");
