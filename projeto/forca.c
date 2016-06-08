@@ -160,8 +160,7 @@ void escolherPalavraAleatoria(int tema) {
 			strcpy(g_dica, "Informatica");
 			strcpy(g_palavra, informatica[rand() % NUM_ITENS]);
 			break;
-		} default:
-			break;
+		}
 	}
 }
 
@@ -181,6 +180,45 @@ void escolherPalavraPersonalizada(void) {
 
 	for (i = 0; i < strlen(g_palavra); i++)
 		g_palavra[i] = toupper(g_palavra[i]);
+}
+
+int verificarPalpite(char palpite) {
+	int retorna;
+
+	switch (palpite) {
+		case 65 ... 90: {
+			retorna = 1;
+			break;
+		} case 97 ... 122: {
+			retorna = 1;
+			break;
+		} default: {
+			retorna = 0;
+			break;
+		}
+	}
+
+	return retorna;
+}
+
+/*
+	Procedimento: char lerPalpite(void)
+	Parâmetros: -
+	Descrição: Lê um palpite inserido pelo usuário e retorna o caractere digitado.
+	Retorna: O caractere digitado.
+*/
+char lerPalpite(void) {
+	char palpite;
+	char c;
+
+	int verificar = -1;
+	do {
+		printf("\n\n  Digite seu palpite: ");
+	} while( ((scanf("%c%c", &palpite, &c) != 2 || c != '\n') && clean_stdin()) || !verificarPalpite(palpite));
+
+	palpite = toupper(palpite);
+
+	return palpite;
 }
 
 /*
@@ -327,11 +365,7 @@ void mostrarForca(void) {
 
 	if (strcmp(g_palavra, g_acertos) != 0 && g_erros != 6) {
 		//Palpite do jogador.
-		char palpite;
-
-		printf("\n\n  Digite seu palpite: ");
-		scanf(" %c", &palpite);
-		palpite = toupper(palpite);
+		char palpite = lerPalpite();
 
 		int usada = 0;
 
