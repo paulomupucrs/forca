@@ -382,3 +382,49 @@ void mostrarForca(void) {
 	}
 }
 
+#if defined DEBUG_MODE
+/*
+	Procedimento: void inicializarDebug(void)
+	Parâmetros: -
+	Descrição: Inicializa o modo de debug do jogo, mostrando todas as palavras disponíveis em suas categorias.
+	Retorna: -
+*/
+void inicializarDebug(void) {
+	char c;
+	int i;
+
+	printf("===========[MODO DE DEBUG]===========");
+
+	printf("[Tema: ANIMAIS]\n");
+	for (i = 0; i < MAX_ITENS_POR_TEMA; i++)
+		printf("%s ", animal[i]);
+
+	printf("\n\n");
+
+	printf("[Tema: COMIDA]\n");
+	for (i = 0; i < MAX_ITENS_POR_TEMA; i++)
+		printf("%s ", comida[i]);
+
+	printf("\n\n");
+
+	printf("[Tema: FRUTAS]\n");
+	for (i = 0; i < MAX_ITENS_POR_TEMA; i++)
+		printf("%s ", fruta[i]);
+
+	printf("\n\n");
+
+	printf("[Tema: PROFISSÃO]\n");
+	for (i = 0; i < MAX_ITENS_POR_TEMA; i++)
+		printf("%s ", profissao[i]);
+
+	printf("\n\n");
+
+	printf("[Tema: INFORMATICA]\n");
+	for (i = 0; i < MAX_ITENS_POR_TEMA; i++)
+		printf("%s ", informatica[i]);
+
+	printf("\n\nDigite algum caractere e pressione ENTER para continuar: ");
+	scanf("%c", &c);
+}
+#endif
+
