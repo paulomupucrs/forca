@@ -6,20 +6,29 @@
  * Jogo da forca simples, com a possibilidade de usar palavras personalizadas.
  */
 
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
-#include<time.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
 
-#define NUM_ITENS 20
-#define	OPC_NEM 0
-#define OPC_PREDEF 1
-#define OPC_PERS 2
-#define OPC_SAIR 3
-#define MAX_TAMANHO_PALAVRA 12
+#define OPC_INVALIDA			0
+#define OPC_PALAVRA_PREDEFINIDA		1
+#define OPC_PALAVRA_PERSONALIZADA	2
+#define OPC_SAIR			3
+
+#define MAX_ITENS_POR_TEMA 		20
+#define MAX_TAMANHO_DICA		20
+#define MAX_TAMANHO_PALAVRA		12
+
+#define TEMA_INVALIDO			0
+#define TEMA_ANIMAIS			1
+#define TEMA_COMIDA			2
+#define TEMA_FRUTAS			3
+#define TEMA_PROFISSAO			4
+#define TEMA_INFORMATICA		5
 
 //Dica da palavra para o jogador.
-char g_dica[20];
+char g_dica[MAX_TAMANHO_DICA];
 //Palavra que o jogador deve acertar. Pode ser uma da lista acima ou personalizada.
 char g_palavra[MAX_TAMANHO_PALAVRA];
 //Variável usada para controle dos acertos do usuário. Cada letra acertada é colocada em sua posição nessa string. Quando <acertos> == <palavra>, o jogador acertou.
@@ -33,25 +42,25 @@ int g_numLetrasUsadas = 0;
 int g_erros = 0;
 
 //Vetores com as palavras possíveis. A declaração do tamanho deve ser manual, pois C não permite que a constante seja declarada como dimensão do array.
-const char animal[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "AVESTRUZ", "BORBOLETA", "CARANGUEJO",
+const char animal[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "AVESTRUZ", "BORBOLETA", "CARANGUEJO",
 			"ORANGOTANGO", "CROCODILO", "DROMEDARIO", "ROUXINOL", "CENTOPEIA",
 			"GAFANHOTO", "PINTASSILGO", "HIPOPOTAMO", "LEOPARDO", "GUAXINIM",
 			"JAGUATIRICA", "OSTRA", "MICO", "CHIMPANZE", "CARNEIRO", "GOLFINHO",
 			"MINHOCA" };
-const char comida[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "EMPADA", "FARINHA", "FEIJOADA", "COXINHA",
+const char comida[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "EMPADA", "FARINHA", "FEIJOADA", "COXINHA",
 			"BRIGADEIRO", "CHURRASCO", "LASANHA", "MACARRONADA", "TORTA",
 			"TORRADA", "PIZZA", "PANQUECA", "PIPOCA", "PAMONHA", "OVO",
 			"ACARAJE", "CROISSANT", "HAMBURGUER", "BISCOITO", "BOLO" };
-const char fruta[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "ABACATE", "BANANA", "CARAMBOLA", "DAMASCO", "FIGO",
+const char fruta[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "ABACATE", "BANANA", "CARAMBOLA", "DAMASCO", "FIGO",
 			"GOIABA", "JABUTICABA", "KIWI", "LARANJA", "MELANCIA", "MANGA",
 			"MARACUJA", "PESSEGO", "PITOMBA", "ROMA", "TANGERINA", "TOMATE",
 			"TAMARINDO", "UVA", "UMBU" };
-const char profissao[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "ADVOGADO", "BOMBEIRO", "CARPINTEIRO",
+const char profissao[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "ADVOGADO", "BOMBEIRO", "CARPINTEIRO",
 			"DESENHISTA", "ENGENHEIRO", "ESCRITOR", "FERREIRO", "GUARDA",
 			"HISTORIADOR", "JORNALISTA", "LEILOEIRO", "MARINHEIRO", "OURIVES",
 			"PROGRAMADOR", "PADEIRO", "RELOJOEIRO", "SILVICULTOR", "TRADUTOR",
 			"VETERINARIO", "ZOOLOGO" };
-const char informatica[NUM_ITENS][MAX_TAMANHO_PALAVRA] = { "LINUX", "WINDOWS", "C", "PROCESSADOR",
+const char informatica[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "LINUX", "WINDOWS", "C", "PROCESSADOR",
 			"TECLADO", "MOUSE", "PROGRAMA", "ALGORITMO", "HACKER", "TOUCHPAD",
 			"ASCII", "JAVA", "JAVASCRIPT", "PROGRAMADOR", "PYTHON", "INTERNET",
 			"ROTEADOR", "SERVIDOR", "GOOGLE", "APPLE" };
@@ -92,11 +101,11 @@ int escolherModoDeJogo(void) {
 		printf(
 				"#################################### Forca #####################################");
 		printf("\n\n Escolha o modo de jogo: ");
-		printf("\n\n 1 - Palavras pré-definidas: ");
+		printf("\n\n 1 - Palavra pré-definida: ");
 		printf("\n\n 2 - Palavra personalizada: ");
 		printf("\n\n 3 - Sair: ");
 		printf("\n\n Opção escolhida: ");
-	} while (((scanf("%d%c", &opc, &c) != 2 || c != '\n') && clean_stdin()) || opc < OPC_PREDEF || opc > OPC_SAIR);
+	} while (((scanf("%d%c", &opc, &c) != 2 || c != '\n') && clean_stdin()) || opc < OPC_PALAVRA_PREDEFINIDA || opc > OPC_SAIR);
 
 	return opc;
 }
@@ -120,10 +129,10 @@ int escolherTema(void) {
 		printf("\n\n 1 - Animais: ");
 		printf("\n\n 2 - Comida: ");
 		printf("\n\n 3 - Frutas: ");
-		printf("\n\n 4 - Profissao: ");
-		printf("\n\n 5 - Informatica: ");
+		printf("\n\n 4 - Profissão: ");
+		printf("\n\n 5 - Informática: ");
 		printf("\n\n Tema escolhido: ");
-	} while (((scanf("%d%c", &tema, &c) != 2 || c != '\n') && clean_stdin()) || tema < 1 || tema > 5);
+	} while (((scanf("%d%c", &tema, &c) != 2 || c != '\n') && clean_stdin()) || tema < TEMA_ANIMAIS || tema > TEMA_INFORMATICA);
 
 	return tema;
 }
@@ -139,26 +148,26 @@ void escolherPalavraAleatoria(int tema) {
 	srand(time(NULL));
 
 	switch (tema) {
-		case 1: {
-			strcpy(g_dica, "Animal");
+		case TEMA_ANIMAIS: {
+			strcpy(g_dica, "Animais");
 			//Seleciona uma palavra aleatória
-			strcpy(g_palavra, animal[rand() % NUM_ITENS]);
+			strcpy(g_palavra, animal[rand() % MAX_ITENS_POR_TEMA]);
 			break;
-		} case 2: {
+		} case TEMA_COMIDA: {
 			strcpy(g_dica, "Comida");
-			strcpy(g_palavra, comida[rand() % NUM_ITENS]);
+			strcpy(g_palavra, comida[rand() % MAX_ITENS_POR_TEMA]);
 			break;
-		} case 3: {
-			strcpy(g_dica, "Fruta");
-			strcpy(g_palavra, fruta[rand() % NUM_ITENS]);
+		} case TEMA_FRUTAS: {
+			strcpy(g_dica, "Frutas");
+			strcpy(g_palavra, fruta[rand() % MAX_ITENS_POR_TEMA]);
 			break;
-		} case 4: {
-			strcpy(g_dica, "Profissao");
-			strcpy(g_palavra, profissao[rand() % NUM_ITENS]);
+		} case TEMA_PROFISSAO: {
+			strcpy(g_dica, "Profissão");
+			strcpy(g_palavra, profissao[rand() % MAX_ITENS_POR_TEMA]);
 			break;
-		} case 5: {
-			strcpy(g_dica, "Informatica");
-			strcpy(g_palavra, informatica[rand() % NUM_ITENS]);
+		} case TEMA_INFORMATICA: {
+			strcpy(g_dica, "Informática");
+			strcpy(g_palavra, informatica[rand() % MAX_ITENS_POR_TEMA]);
 			break;
 		}
 	}
@@ -405,7 +414,7 @@ void mostrarForca(void) {
 
 int main() {
 	//Variáveis de opção dos menus de jogo e de tema.
-	int opc = OPC_NEM;
+	int opc = OPC_INVALIDA;
 	int tema = 0;
 
 	//O programa é executado enquanto opc != OPC_SAIR (sair no menu);
@@ -415,12 +424,12 @@ int main() {
 		opc = escolherModoDeJogo();
 
 		switch (opc) {
-			case OPC_PREDEF: {
+			case OPC_PALAVRA_PREDEFINIDA: {
 				tema = escolherTema();
 
 				escolherPalavraAleatoria(tema);
 				break;
-			} case OPC_PERS: {
+			} case OPC_PALAVRA_PERSONALIZADA: {
 				escolherPalavraPersonalizada();
 				break;
 			} case OPC_SAIR:
