@@ -11,7 +11,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include <time.h>
 #include "lib/funcoes.c"
 
@@ -46,13 +45,13 @@ int main() {
 		if (opc != OPC_SAIR) {
 			redefinirAcertos(Forca.acertos);
 
-			while (strcmp(Forca.palavra, Forca.acertos) != 0 && Forca.erros != 6)
+			while (!Forca.venceu && !Forca.perdeu)
 				mostrarForca();
 
-			if (Forca.erros == 6)
-				printf("\n  Você perdeu! =(\n  A palavra era %s", Forca.palavra);
-			else
-				printf("\n  Você ganhou! :D A palavra era %s", Forca.palavra);
+			if (Forca.perdeu)
+				printf("\n\n  Você perdeu! =(\n  A palavra era %s", Forca.palavra);
+			else if (Forca.venceu)
+				printf("\n\n  Você ganhou! :D\n  A palavra era %s", Forca.palavra);
 
 			//Char usado pra voltar ao menu
 			char voltarMenu;

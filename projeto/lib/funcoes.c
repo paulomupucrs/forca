@@ -52,6 +52,8 @@ void inicializarJogo(void) {
 
 	Forca.numLetrasUsadas = 0;
 	Forca.erros = 0;
+	Forca.venceu = 0;
+	Forca.perdeu = 0;
 
 	for (i = 0; i < strlen(Forca.letrasUsadas); i++)
 		Forca.letrasUsadas[i] = '*';
@@ -161,6 +163,8 @@ void escolherPalavraPersonalizada(char *dica, char *palavra) {
 	printf("\n Digite a palavra a ser adivinhada: ");
 	scanf(" %[^\n]", palavra);
 
+	clean_stdin();
+
 	int i;
 
 	for (i = 0; i < strlen(palavra); i++)
@@ -174,22 +178,10 @@ void escolherPalavraPersonalizada(char *dica, char *palavra) {
 	Retorna: 0 se é inválido, 1 se é válido.
 */
 int verificarPalpite(char palpite) {
-	int retorna;
+	if ((palpite > 64 && palpite < 91) || (palpite > 96 && palpite < 123))
+		return 1;
 
-	switch (palpite) {
-		case 65 ... 90: {
-			retorna = 1;
-			break;
-		} case 97 ... 122: {
-			retorna = 1;
-			break;
-		} default: {
-			retorna = 0;
-			break;
-		}
-	}
-
-	return retorna;
+	return 0;
 }
 
 /*
@@ -241,15 +233,16 @@ void desenharBoneco(int erros) {
 	switch (erros) {
 		case 0: {	
 			printf("  ####              \n");
-			printf("  ####              \n");		
-			for(i = 0; i < 9; i ++) {
+			printf("  ####              \n");
+		
+			for(i = 0; i < 9; i ++)
 				printf("  ##              \n");
-			}
+
 			break;
 		} case 1: {
-			for(i = 0; i < 6; i ++) {
+			for(i = 0; i < 6; i ++)
 				printf("  ##              \n");
-			}			
+
 			break;
 		} case 2: {
 			printf("  ##         |    \n");
@@ -328,53 +321,64 @@ void desenharPalavra(char *palavra) {
 	Retorna: -
 */
 void mostrarForca(void) {
+	int i;
+
 	limparTela();
 
+	// Desenha o cabeçalho, a dica e as letras já utilizadas
 	printf(
 			"#################################### Forca #####################################");
 	printf("\n\n  Dica: %s   Letras usadas: ", Forca.dica);
 
-	int i;
-
 	for (i = 0; i < Forca.numLetrasUsadas; i++)
 		printf("%c ", Forca.letrasUsadas[i]);
 
+	// Desenha o boneco e as posições da palavra
 	desenharBoneco(Forca.erros);
 	desenharPalavra(Forca.palavra);
 
-	if (strcmp(Forca.palavra, Forca.acertos) != 0 && Forca.erros != 6) {
-		//Palpite do jogador.
-		char palpite = lerPalpite();
+	// Se a quantidade de erros é diferente de 6...
+	if (Forca.erros != 6) {
+		// Se o jogador ainda não acertou a palavra
+		if (strcmp(Forca.palavra, Forca.acertos) != 0) {
+			// Obtém o palpite do jogador
+			char palpite = lerPalpite();
+			int usada = 0;
 
-		int usada = 0;
-
-		//checa se a letra já foi usada
-		for (i = 0; i < 26; i++) {
-			if (Forca.letrasUsadas[i] == palpite)
-				usada = 1;
-		}
-
-		//Se não foi usada
-		if (usada == 0) {
-			Forca.letrasUsadas[Forca.numLetrasUsadas] = palpite;
-			Forca.numLetrasUsadas++;
-
-			//Variável de controle; 0 = não contem o
-			int contemPalpite = 0;
-
-			//Verifica se a palavra contém o palpite do usuário. A variável contemPalpite é usada para o controle dos erros
-			for (i = 0; i < strlen(Forca.palavra); i++) {
-				if (palpite == Forca.palavra[i]) {
-					Forca.acertos[i] = palpite;
-					contemPalpite = 1;
+			// Verifica se a letra já foi usada
+			for (i = 0; i < MAX_LETRAS; i++) {
+				if (Forca.letrasUsadas[i] == palpite) {
+					usada = 1;
+					break;
 				}
 			}
 
-			if (contemPalpite == 0)
-				Forca.erros++;
-		}
+			// Se não foi usada...
+			if (!usada) {
+				int contemPalpite = 0;
 
-	}
+				// Armazena a letra no vetor de letras utilizadas, na primeira posição não-ocupada
+				Forca.letrasUsadas[Forca.numLetrasUsadas] = palpite;
+				// Incrementa a posição
+				Forca.numLetrasUsadas++;
+
+				// Verifica se a palavra contém o palpite do jogador
+				for (i = 0; i < strlen(Forca.palavra); i++) {
+					if (palpite == Forca.palavra[i]) {
+						// Caso contenha, marca o acerto
+						Forca.acertos[i] = palpite;
+						contemPalpite = 1;
+					}
+				}
+
+				// Caso a palavra não tenha o palpite do jogador, incrementa a quantidade de erros
+				if (!contemPalpite)
+					Forca.erros++;
+			}
+		} else
+			Forca.venceu = 1;
+	} else
+		Forca.perdeu = 1;
 }
 
 #if defined DEBUG_MODE

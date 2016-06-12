@@ -22,6 +22,8 @@ struct DadosDaForca {
 	char letrasUsadas[MAX_LETRAS];
 	int numLetrasUsadas;
 	int erros;
+	int venceu;
+	int perdeu;
 };
 extern struct DadosDaForca Forca;
 
