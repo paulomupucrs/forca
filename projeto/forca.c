@@ -20,12 +20,12 @@ int main() {
 	inicializarDebug();
 	#endif
 
-	//Variáveis de opção dos menus de jogo e de tema.
 	int opc = OPC_INVALIDA;
 	int tema = 0;
 
 	//O programa é executado enquanto opc != OPC_SAIR (sair no menu);
 	while (opc != OPC_SAIR) {
+		limparTela();
 		inicializarJogo();
 
 		opc = escolherModoDeJogo();
@@ -34,17 +34,17 @@ int main() {
 			case OPC_PALAVRA_PREDEFINIDA: {
 				tema = escolherTema();
 
-				escolherPalavraAleatoria(tema);
+				escolherPalavraAleatoria(tema, Forca.dica, Forca.palavra);
 				break;
 			} case OPC_PALAVRA_PERSONALIZADA: {
-				escolherPalavraPersonalizada();
+				escolherPalavraPersonalizada(Forca.dica, Forca.palavra);
 				break;
 			} case OPC_SAIR:
 				break;
 		}
 
 		if (opc != OPC_SAIR) {
-			resetarAcertosDaPalavra();
+			redefinirAcertos(Forca.acertos);
 
 			while (strcmp(Forca.palavra, Forca.acertos) != 0 && Forca.erros != 6)
 				mostrarForca();

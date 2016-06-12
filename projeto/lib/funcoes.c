@@ -27,39 +27,38 @@ void limparTela(void) {
 }
 
 /*
-	Procedimento: void resetarAcertosDaPalavra(void)
-	Parâmetros: -
-	Descrição: Reseta as letras que o jogador acertou da palavra.
+	Procedimento: void redefinirAcertos(char *acertos)
+	Parâmetros: char *acertos - Ponteiro da variável que armazena os acertos
+	Descrição: Preenche a variável de acertos com asteriscos, que representam caracteres desconhecidos.
 	Retorna: -
 */
-void resetarAcertosDaPalavra(void) {
-	int i;
+void redefinirAcertos(char *acertos) {
+	int i, len;
 
-	//Preenche a variável acertos com asteriscos, que representam caracteres desconhecidos
-	for (i = 0; i < strlen(Forca.palavra); i++)
-		Forca.acertos[i] = '*';
+	for (i = 0, len = strlen(Forca.palavra); i < len; i++)
+		acertos[i] = '*';
 
-	Forca.acertos[strlen(Forca.palavra)] = '\0';
+	acertos[len] = '\0';
 }
 
 /*
 	Procedimento: void inicializarJogo(void)
 	Parâmetros: -
-	Descrição: Limpa o conteúdo do terminal e reseta o vetor de letras utilizadas.
+	Descrição: Reseta as variáveis para começar o jogo do 0;
 	Retorna: -
 */
 void inicializarJogo(void) {
-	limparTela();
-
 	int i;
 
-	//Limpa as letras usadas
+	Forca.numLetrasUsadas = 0;
+	Forca.erros = 0;
+
 	for (i = 0; i < strlen(Forca.letrasUsadas); i++)
 		Forca.letrasUsadas[i] = '*';
 }
 
 /*		
-	Procedimento: int escolherModoDeJogo(void)
+	Função/Procedimento: int escolherModoDeJogo(void)
 	Parâmetros: -
 	Descrição: Mostra a tela de seleção do modo de jogo e solicita a opção do usuário.
 	Retorna: O modo de jogo escolhido.
@@ -84,7 +83,7 @@ int escolherModoDeJogo(void) {
 }
 
 /*
-	Procedimento: int escolherTema(void)
+	Função/Procedimento: int escolherTema(void)
 	Parâmetros: -
 	Descrição: Mostra a tela de seleção de tema e solicita a opção do usuário.
 	Retorna: O tema escolhido.
@@ -111,57 +110,61 @@ int escolherTema(void) {
 }
 
 /*
-	Procedimento: void escolherPalavraAleatoria(int tema)
-	Parâmetros: int tema - identificador do tema escolhido
+	Procedimento: void escolherPalavraAleatoria(int tema, char *dica, char *palavra)
+	Parâmetros:
+			int tema - identificador do tema escolhido
+			char *dica - Ponteiro da variável que armazena a dica
+			char *palavra - Ponteiro da variável que armazena a palavra
 	Descrição: Pega uma palavra aleatória de acordo com o tela escolhido.
 	Retorna: -
 */
-void escolherPalavraAleatoria(int tema) {
+void escolherPalavraAleatoria(int tema, char *dica, char *palavra) {
 	//Para gerar números aleatórios
 	srand(time(NULL));
 
 	switch (tema) {
 		case TEMA_ANIMAIS: {
-			strcpy(Forca.dica, "Animais");
-			//Seleciona uma palavra aleatória
-			strcpy(Forca.palavra, animal[rand() % MAX_ITENS_POR_TEMA]);
+			strcpy(dica, "Animais");
+			strcpy(palavra, animal[rand() % MAX_ITENS_POR_TEMA]);
 			break;
 		} case TEMA_COMIDA: {
-			strcpy(Forca.dica, "Comida");
-			strcpy(Forca.palavra, comida[rand() % MAX_ITENS_POR_TEMA]);
+			strcpy(dica, "Comida");
+			strcpy(palavra, comida[rand() % MAX_ITENS_POR_TEMA]);
 			break;
 		} case TEMA_FRUTAS: {
-			strcpy(Forca.dica, "Frutas");
-			strcpy(Forca.palavra, fruta[rand() % MAX_ITENS_POR_TEMA]);
+			strcpy(dica, "Frutas");
+			strcpy(palavra, fruta[rand() % MAX_ITENS_POR_TEMA]);
 			break;
 		} case TEMA_PROFISSAO: {
-			strcpy(Forca.dica, "Profissão");
-			strcpy(Forca.palavra, profissao[rand() % MAX_ITENS_POR_TEMA]);
+			strcpy(dica, "Profissão");
+			strcpy(palavra, profissao[rand() % MAX_ITENS_POR_TEMA]);
 			break;
 		} case TEMA_INFORMATICA: {
-			strcpy(Forca.dica, "Informática");
-			strcpy(Forca.palavra, informatica[rand() % MAX_ITENS_POR_TEMA]);
+			strcpy(dica, "Informática");
+			strcpy(palavra, informatica[rand() % MAX_ITENS_POR_TEMA]);
 			break;
 		}
 	}
 }
 
 /*
-	Procedimento: void escolherPalavraPersonalizada(void)
-	Parâmetros: -
+	Procedimento: void escolherPalavraPersonalizada(char *dica, char *palavra)
+	Parâmetros:
+			char *dica - Ponteiro da variável que armazena a dica
+			char *palavra - Ponteiro da variável que armazena a palavra	
 	Descrição: Solicita ao usuário para digitar a dica e a palavra a ser advinhada, armazenando ambas na memória.
 	Retorna: -
 */
-void escolherPalavraPersonalizada(void) {
+void escolherPalavraPersonalizada(char *dica, char *palavra) {
 	printf("\n Digite a dica: ");
-	scanf(" %[^\n]", Forca.dica);
+	scanf(" %[^\n]", dica);
 	printf("\n Digite a palavra a ser adivinhada: ");
-	scanf(" %[^\n]", Forca.palavra);
+	scanf(" %[^\n]", palavra);
 
 	int i;
 
-	for (i = 0; i < strlen(Forca.palavra); i++)
-		Forca.palavra[i] = toupper(Forca.palavra[i]);
+	for (i = 0; i < strlen(palavra); i++)
+		palavra[i] = toupper(palavra[i]);
 }
 
 /*
@@ -302,19 +305,18 @@ void desenharBoneco(int erros) {
 }
 
 /*
-	Procedimento: void desenharPalavra(void)
-	Parâmetros: -
+	Procedimento: void desenharPalavra(char *palavra)
+	Parâmetros: char *palavra - Ponteiro da palavra a ser desenhada
 	Descrição: Desenha os espaços e as letras corretas na tela.
 	Retorna: -
 */
-void desenharPalavra(void) {
+void desenharPalavra(char *palavra) {
 	int i;
 
-	//Desenha os espaços para as letras
-	for (i = 0; i < strlen(Forca.palavra); i++) {
+	for (i = 0; i < strlen(palavra); i++) {
 		if (Forca.acertos[i] == '*')
 			printf("_ ");
-		else
+		else 
 			printf("%c ", Forca.acertos[i]);
 	}
 }
@@ -338,7 +340,7 @@ void mostrarForca(void) {
 		printf("%c ", Forca.letrasUsadas[i]);
 
 	desenharBoneco(Forca.erros);
-	desenharPalavra();
+	desenharPalavra(Forca.palavra);
 
 	if (strcmp(Forca.palavra, Forca.acertos) != 0 && Forca.erros != 6) {
 		//Palpite do jogador.
