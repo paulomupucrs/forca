@@ -1,14 +1,7 @@
 #include "data.h"
 #include "funcoes.h"
 
-char g_dica[MAX_TAMANHO_DICA];
-char g_palavra[MAX_TAMANHO_PALAVRA];
-char g_acertos[MAX_TAMANHO_PALAVRA];
-
-char g_letrasUsadas[26];
-int g_numLetrasUsadas = 0;
-
-int g_erros = 0;
+struct DadosDaForca Forca;
 
 /*
 	Função/Procedimento: int clean_stdin(void)
@@ -43,10 +36,10 @@ void resetarAcertosDaPalavra(void) {
 	int i;
 
 	//Preenche a variável acertos com asteriscos, que representam caracteres desconhecidos
-	for (i = 0; i < strlen(g_palavra); i++)
-		g_acertos[i] = '*';
+	for (i = 0; i < strlen(Forca.palavra); i++)
+		Forca.acertos[i] = '*';
 
-	g_acertos[strlen(g_palavra)] = '\0';
+	Forca.acertos[strlen(Forca.palavra)] = '\0';
 }
 
 /*
@@ -61,8 +54,8 @@ void inicializarJogo(void) {
 	int i;
 
 	//Limpa as letras usadas
-	for (i = 0; i < strlen(g_letrasUsadas); i++)
-		g_letrasUsadas[i] = '*';
+	for (i = 0; i < strlen(Forca.letrasUsadas); i++)
+		Forca.letrasUsadas[i] = '*';
 }
 
 /*		
@@ -129,25 +122,25 @@ void escolherPalavraAleatoria(int tema) {
 
 	switch (tema) {
 		case TEMA_ANIMAIS: {
-			strcpy(g_dica, "Animais");
+			strcpy(Forca.dica, "Animais");
 			//Seleciona uma palavra aleatória
-			strcpy(g_palavra, animal[rand() % MAX_ITENS_POR_TEMA]);
+			strcpy(Forca.palavra, animal[rand() % MAX_ITENS_POR_TEMA]);
 			break;
 		} case TEMA_COMIDA: {
-			strcpy(g_dica, "Comida");
-			strcpy(g_palavra, comida[rand() % MAX_ITENS_POR_TEMA]);
+			strcpy(Forca.dica, "Comida");
+			strcpy(Forca.palavra, comida[rand() % MAX_ITENS_POR_TEMA]);
 			break;
 		} case TEMA_FRUTAS: {
-			strcpy(g_dica, "Frutas");
-			strcpy(g_palavra, fruta[rand() % MAX_ITENS_POR_TEMA]);
+			strcpy(Forca.dica, "Frutas");
+			strcpy(Forca.palavra, fruta[rand() % MAX_ITENS_POR_TEMA]);
 			break;
 		} case TEMA_PROFISSAO: {
-			strcpy(g_dica, "Profissão");
-			strcpy(g_palavra, profissao[rand() % MAX_ITENS_POR_TEMA]);
+			strcpy(Forca.dica, "Profissão");
+			strcpy(Forca.palavra, profissao[rand() % MAX_ITENS_POR_TEMA]);
 			break;
 		} case TEMA_INFORMATICA: {
-			strcpy(g_dica, "Informática");
-			strcpy(g_palavra, informatica[rand() % MAX_ITENS_POR_TEMA]);
+			strcpy(Forca.dica, "Informática");
+			strcpy(Forca.palavra, informatica[rand() % MAX_ITENS_POR_TEMA]);
 			break;
 		}
 	}
@@ -161,14 +154,14 @@ void escolherPalavraAleatoria(int tema) {
 */
 void escolherPalavraPersonalizada(void) {
 	printf("\n Digite a dica: ");
-	scanf(" %[^\n]", g_dica);
+	scanf(" %[^\n]", Forca.dica);
 	printf("\n Digite a palavra a ser adivinhada: ");
-	scanf(" %[^\n]", g_palavra);
+	scanf(" %[^\n]", Forca.palavra);
 
 	int i;
 
-	for (i = 0; i < strlen(g_palavra); i++)
-		g_palavra[i] = toupper(g_palavra[i]);
+	for (i = 0; i < strlen(Forca.palavra); i++)
+		Forca.palavra[i] = toupper(Forca.palavra[i]);
 }
 
 /*
@@ -318,11 +311,11 @@ void desenharPalavra(void) {
 	int i;
 
 	//Desenha os espaços para as letras
-	for (i = 0; i < strlen(g_palavra); i++) {
-		if (g_acertos[i] == '*')
+	for (i = 0; i < strlen(Forca.palavra); i++) {
+		if (Forca.acertos[i] == '*')
 			printf("_ ");
 		else
-			printf("%c ", g_acertos[i]);
+			printf("%c ", Forca.acertos[i]);
 	}
 }
 
@@ -337,17 +330,17 @@ void mostrarForca(void) {
 
 	printf(
 			"#################################### Forca #####################################");
-	printf("\n\n  Dica: %s   Letras usadas: ", g_dica);
+	printf("\n\n  Dica: %s   Letras usadas: ", Forca.dica);
 
 	int i;
 
-	for (i = 0; i < g_numLetrasUsadas; i++)
-		printf("%c ", g_letrasUsadas[i]);
+	for (i = 0; i < Forca.numLetrasUsadas; i++)
+		printf("%c ", Forca.letrasUsadas[i]);
 
-	desenharBoneco(g_erros);
+	desenharBoneco(Forca.erros);
 	desenharPalavra();
 
-	if (strcmp(g_palavra, g_acertos) != 0 && g_erros != 6) {
+	if (strcmp(Forca.palavra, Forca.acertos) != 0 && Forca.erros != 6) {
 		//Palpite do jogador.
 		char palpite = lerPalpite();
 
@@ -355,28 +348,28 @@ void mostrarForca(void) {
 
 		//checa se a letra já foi usada
 		for (i = 0; i < 26; i++) {
-			if (g_letrasUsadas[i] == palpite)
+			if (Forca.letrasUsadas[i] == palpite)
 				usada = 1;
 		}
 
 		//Se não foi usada
 		if (usada == 0) {
-			g_letrasUsadas[g_numLetrasUsadas] = palpite;
-			g_numLetrasUsadas++;
+			Forca.letrasUsadas[Forca.numLetrasUsadas] = palpite;
+			Forca.numLetrasUsadas++;
 
 			//Variável de controle; 0 = não contem o
 			int contemPalpite = 0;
 
 			//Verifica se a palavra contém o palpite do usuário. A variável contemPalpite é usada para o controle dos erros
-			for (i = 0; i < strlen(g_palavra); i++) {
-				if (palpite == g_palavra[i]) {
-					g_acertos[i] = palpite;
+			for (i = 0; i < strlen(Forca.palavra); i++) {
+				if (palpite == Forca.palavra[i]) {
+					Forca.acertos[i] = palpite;
 					contemPalpite = 1;
 				}
 			}
 
 			if (contemPalpite == 0)
-				g_erros++;
+				Forca.erros++;
 		}
 
 	}

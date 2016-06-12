@@ -4,6 +4,7 @@
 #define OPC_SAIR			3
 
 #define MAX_ITENS_POR_TEMA 		20
+#define MAX_LETRAS			26
 #define MAX_TAMANHO_DICA		20
 #define MAX_TAMANHO_PALAVRA		12
 
@@ -14,19 +15,15 @@
 #define TEMA_PROFISSAO			4
 #define TEMA_INFORMATICA		5
 
-//Dica da palavra para o jogador.
-extern char g_dica[MAX_TAMANHO_DICA];
-//Palavra que o jogador deve acertar. Pode ser uma da lista acima ou personalizada.
-extern char g_palavra[MAX_TAMANHO_PALAVRA];
-//Variável usada para controle dos acertos do usuário. Cada letra acertada é colocada em sua posição nessa string. Quando <acertos> == <palavra>, o jogador acertou.
-extern char g_acertos[MAX_TAMANHO_PALAVRA];
-
-//Letras usadas pelo usuário e contador de letras usadas para repetições.
-extern char g_letrasUsadas[26];
-extern int g_numLetrasUsadas;
-
-//Contador de erros. 6 erros = derrota;
-extern int g_erros;
+struct DadosDaForca {
+	char dica[MAX_TAMANHO_DICA];
+	char palavra[MAX_TAMANHO_PALAVRA];
+	char acertos[MAX_TAMANHO_PALAVRA];
+	char letrasUsadas[MAX_LETRAS];
+	int numLetrasUsadas;
+	int erros;
+};
+extern struct DadosDaForca Forca;
 
 const char animal[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "AVESTRUZ", "BORBOLETA", "CARANGUEJO",
 			"ORANGOTANGO", "CROCODILO", "DROMEDARIO", "ROUXINOL", "CENTOPEIA",

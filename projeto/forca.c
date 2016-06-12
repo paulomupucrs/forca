@@ -46,13 +46,13 @@ int main() {
 		if (opc != OPC_SAIR) {
 			resetarAcertosDaPalavra();
 
-			while (strcmp(g_palavra, g_acertos) != 0 && g_erros != 6)
+			while (strcmp(Forca.palavra, Forca.acertos) != 0 && Forca.erros != 6)
 				mostrarForca();
 
-			if (g_erros == 6)
-				printf("\n  Você perdeu! =(\n  A palavra era %s", g_palavra);
+			if (Forca.erros == 6)
+				printf("\n  Você perdeu! =(\n  A palavra era %s", Forca.palavra);
 			else
-				printf("\n  Você ganhou! :D A palavra era %s", g_palavra);
+				printf("\n  Você ganhou! :D A palavra era %s", Forca.palavra);
 
 			//Char usado pra voltar ao menu
 			char voltarMenu;
