@@ -18,5 +18,6 @@ extern void desenharPalavra(char *);
 extern void mostrarForca(void);
 
 #if defined DEBUG_MODE
+extern void debug(char *);
 extern void inicializarDebug(void);
 #endif

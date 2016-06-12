@@ -3,6 +3,10 @@
 
 struct DadosDaForca Forca;
 
+#if defined DEBUG_MODE
+char mensagem[128];
+#endif
+
 /*
 	Função/Procedimento: int clean_stdin(void)
 	Parâmetros: -
@@ -340,6 +344,11 @@ void mostrarForca(void) {
 	desenharBoneco(Forca.erros);
 	desenharPalavra(Forca.palavra);
 
+	#if defined DEBUG_MODE
+	sprintf(mensagem, "Erros: %i", Forca.erros);
+	debug(mensagem);
+	#endif
+
 	// Se a quantidade de erros é diferente de 6...
 	if (Forca.erros != 6) {
 		// Se o jogador ainda não acertou a palavra
@@ -347,6 +356,11 @@ void mostrarForca(void) {
 			// Obtém o palpite do jogador
 			char palpite = lerPalpite();
 			int usada = 0;
+
+			#if defined DEBUG_MODE
+			sprintf(mensagem, "Palpite: %c", palpite);
+			debug(mensagem);
+			#endif
 
 			// Verifica se a letra já foi usada
 			for (i = 0; i < MAX_LETRAS; i++) {
@@ -358,6 +372,9 @@ void mostrarForca(void) {
 
 			// Se não foi usada...
 			if (!usada) {
+				#if defined DEBUG_MODE
+				debug("Palpite ainda não foi utilizado. Verificando se a palavra contém o palpite...");
+				#endif
 				int contemPalpite = 0;
 
 				// Armazena a letra no vetor de letras utilizadas, na primeira posição não-ocupada
@@ -375,9 +392,21 @@ void mostrarForca(void) {
 				}
 
 				// Caso a palavra não tenha o palpite do jogador, incrementa a quantidade de erros
-				if (!contemPalpite)
+				if (!contemPalpite) {
+					#if defined DEBUG_MODE
+					debug("A palavra não contém o palpite do jogador.");
+					#endif
 					Forca.erros++;
+				}
+				#if defined DEBUG_MODE
+				else
+					debug("A palavra contém o palpite do jogador.");
+				#endif
 			}
+			#if defined DEBUG_MODE
+			else
+				debug("Palpite já utilizado.");
+			#endif
 		} else
 			Forca.venceu = 1;
 	} else
@@ -385,6 +414,16 @@ void mostrarForca(void) {
 }
 
 #if defined DEBUG_MODE
+void debug(char *mensagem) {
+	char escrever[135];
+
+	sprintf(escrever, "%s\n", mensagem);
+
+	FILE *log = fopen("log.txt", "a");
+	fputs(escrever, log);
+	fclose(log);
+}
+
 /*
 	Procedimento: void inicializarDebug(void)
 	Parâmetros: -
