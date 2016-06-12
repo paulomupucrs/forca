@@ -7,11 +7,10 @@
  */
 
 // Descomentar a linha abaixo para ativar o modo de DEBUG do jogo.
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
 #include <stdio.h>
 #include <string.h>
-#include <time.h>
 #include "lib/funcoes.c"
 
 int main() {
@@ -45,6 +44,7 @@ int main() {
 		if (opc != OPC_SAIR) {
 			redefinirAcertos(Forca.acertos);
 
+			// Enquanto o jogador não vencer e nem perder
 			while (!Forca.venceu && !Forca.perdeu)
 				mostrarForca();
 
@@ -56,7 +56,7 @@ int main() {
 			//Char usado pra voltar ao menu
 			char voltarMenu;
 
-			printf("\n\n  Digite alguma coisa para voltar ao menu!");
+			printf("\n\n  Digite alguma coisa para voltar ao menu: ");
 			scanf(" %c", &voltarMenu);
 		}
 	}

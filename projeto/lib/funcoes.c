@@ -121,8 +121,7 @@ int escolherTema(void) {
 	Retorna: -
 */
 void escolherPalavraAleatoria(int tema, char *dica, char *palavra) {
-	//Para gerar números aleatórios
-	srand(time(NULL));
+//	srand(time(NULL));
 
 	switch (tema) {
 		case TEMA_ANIMAIS: {
@@ -163,6 +162,7 @@ void escolherPalavraPersonalizada(char *dica, char *palavra) {
 	printf("\n Digite a palavra a ser adivinhada: ");
 	scanf(" %[^\n]", palavra);
 
+	// Limpa a entrada de dados
 	clean_stdin();
 
 	int i;
@@ -194,7 +194,6 @@ char lerPalpite(void) {
 	char palpite;
 	char c;
 
-	int verificar = -1;
 	do {
 		printf("\n\n  Digite seu palpite: ");
 	} while( ((scanf("%c%c", &palpite, &c) != 2 || c != '\n') && clean_stdin()) || !verificarPalpite(palpite));
@@ -211,9 +210,11 @@ char lerPalpite(void) {
 	Retorna: -
 */
 void desenharBoneco(int erros) {
+	// Desenha o cabeçalho
 	printf("\n\n");
 	printf("  ##########***##  \n");	
 	
+	// Desenha a cabeça
 	if (erros > 0 && erros <= 5) {
 		printf("  ####       *    \n");
 		printf("  ####      ***   \n");
@@ -228,6 +229,7 @@ void desenharBoneco(int erros) {
 		printf("  ##         *    \n");
 	}
 
+	// Desenha o corpo
 	int i;
 
 	switch (erros) {
@@ -293,6 +295,7 @@ void desenharBoneco(int erros) {
 		}
 	}
 
+	// Desenha a base
 	printf("  ##               \n");
 	printf("  #######################\n\n  ");
 }
@@ -392,7 +395,7 @@ void inicializarDebug(void) {
 	char c;
 	int i;
 
-	printf("===========[MODO DE DEBUG]===========");
+	printf("\n===========[MODO DE DEBUG]===========\n");
 
 	printf("[Tema: ANIMAIS]\n");
 	for (i = 0; i < MAX_ITENS_POR_TEMA; i++)
