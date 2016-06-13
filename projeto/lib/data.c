@@ -1,5 +1,6 @@
+#include <stdio.h>
+#include <string.h>
 #include "data.h"
-#include "funcoes.h"
 
 struct DadosDaForca Forca;
 

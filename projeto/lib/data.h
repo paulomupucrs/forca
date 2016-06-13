@@ -1,3 +1,6 @@
+// Descomentar a linha abaixo para ativar o modo de DEBUG do jogo.
+#define DEBUG_MODE
+
 #define OPC_INVALIDA			0
 #define OPC_PALAVRA_PREDEFINIDA		1
 #define OPC_PALAVRA_PERSONALIZADA	2
@@ -27,30 +30,53 @@ struct DadosDaForca {
 };
 extern struct DadosDaForca Forca;
 
-const char animal[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "AVESTRUZ", "BORBOLETA", "CARANGUEJO",
+static const char animal[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "AVESTRUZ", "BORBOLETA", "CARANGUEJO",
 			"ORANGOTANGO", "CROCODILO", "DROMEDARIO", "ROUXINOL", "CENTOPEIA",
 			"GAFANHOTO", "PINTASSILGO", "HIPOPOTAMO", "LEOPARDO", "GUAXINIM",
 			"JAGUATIRICA", "OSTRA", "MICO", "CHIMPANZE", "CARNEIRO", "GOLFINHO",
 			"MINHOCA" };
 
-const char comida[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "EMPADA", "FARINHA", "FEIJOADA", "COXINHA",
+static const char comida[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "EMPADA", "FARINHA", "FEIJOADA", "COXINHA",
 			"BRIGADEIRO", "CHURRASCO", "LASANHA", "MACARRONADA", "TORTA",
 			"TORRADA", "PIZZA", "PANQUECA", "PIPOCA", "PAMONHA", "OVO",
 			"ACARAJE", "CROISSANT", "HAMBURGUER", "BISCOITO", "BOLO" };
 
-const char fruta[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "ABACATE", "BANANA", "CARAMBOLA", "DAMASCO", "FIGO",
+static const char fruta[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "ABACATE", "BANANA", "CARAMBOLA", "DAMASCO", "FIGO",
 			"GOIABA", "JABUTICABA", "KIWI", "LARANJA", "MELANCIA", "MANGA",
 			"MARACUJA", "PESSEGO", "PITOMBA", "ROMA", "TANGERINA", "TOMATE",
 			"TAMARINDO", "UVA", "UMBU" };
 
-const char profissao[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "ADVOGADO", "BOMBEIRO", "CARPINTEIRO",
+static const char profissao[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "ADVOGADO", "BOMBEIRO", "CARPINTEIRO",
 			"DESENHISTA", "ENGENHEIRO", "ESCRITOR", "FERREIRO", "GUARDA",
 			"HISTORIADOR", "JORNALISTA", "LEILOEIRO", "MARINHEIRO", "OURIVES",
 			"PROGRAMADOR", "PADEIRO", "RELOJOEIRO", "SILVICULTOR", "TRADUTOR",
 			"VETERINARIO", "ZOOLOGO" };
 
-const char informatica[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "LINUX", "WINDOWS", "C", "PROCESSADOR",
+static const char informatica[MAX_ITENS_POR_TEMA][MAX_TAMANHO_PALAVRA] = { "LINUX", "WINDOWS", "C", "PROCESSADOR",
 			"TECLADO", "MOUSE", "PROGRAMA", "ALGORITMO", "HACKER", "TOUCHPAD",
 			"ASCII", "JAVA", "JAVASCRIPT", "PROGRAMADOR", "PYTHON", "INTERNET",
 			"ROTEADOR", "SERVIDOR", "GOOGLE", "APPLE" };
 
+extern int clean_stdin(void);
+extern void limparTela(void);
+
+extern void redefinirAcertos(char *);
+extern void inicializarJogo(void);
+
+extern int escolherModoDeJogo(void);
+extern int escolherTema(void);
+extern void escolherPalavraAleatoria(int, char *, char *);
+extern void escolherPalavraPersonalizada(char *, char *);
+
+extern int verificarPalpite(char);
+extern char lerPalpite(void);
+
+extern void desenharBoneco(int);
+extern void desenharPalavra(char *);
+
+extern void mostrarForca(void);
+
+#if defined DEBUG_MODE
+extern void debug(char *);
+extern void inicializarDebug(void);
+#endif

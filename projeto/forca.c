@@ -6,12 +6,8 @@
  * Jogo da forca simples, com a possibilidade de usar palavras personalizadas.
  */
 
-// Descomentar a linha abaixo para ativar o modo de DEBUG do jogo.
-//#define DEBUG_MODE
-
 #include <stdio.h>
-#include <string.h>
-#include "lib/funcoes.c"
+#include "lib/data.h"
 
 int main() {
 	#if defined DEBUG_MODE
